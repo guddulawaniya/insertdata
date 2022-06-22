@@ -1,15 +1,21 @@
 package com.example.insertdata_firebase;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.insertdata_firebase.databinding.ActivityMainBinding;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -42,13 +48,16 @@ public class MainActivity extends AppCompatActivity {
                         !binding.mpayment.getText().toString().isEmpty() &&
                         !binding.apr.getText().toString().isEmpty())
                 {
-                    Toast.makeText(MainActivity.this, "data successufully insert firebase", Toast.LENGTH_SHORT).show();
+
 
 
                     module user = new module(binding.name.getText().toString(),binding.sBalance.getText().toString(),binding.mpayment.getText().toString(),
                             binding.apr.getText().toString());
-                    database.getReference().child("dept data").setValue(user);
+                    String i=binding.name.getText().toString()+binding.sBalance.getText().toString();
+
+                    database.getReference().child("dept data").child(i).setValue(user);
                     displayAlertbox();
+                    Toast.makeText(MainActivity.this, "data successufully insert firebase", Toast.LENGTH_SHORT).show();
                 }
                 else if (binding.name.getText().toString().isEmpty())
                 {
@@ -111,38 +120,6 @@ class module{
         this.name = name;
         this.sbalance = sbalance;
         this.mpayment = mpayment;
-        this.apr = apr;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getSbalance() {
-        return sbalance;
-    }
-
-    public void setSbalance(String sbalance) {
-        this.sbalance = sbalance;
-    }
-
-    public String getMpayment() {
-        return mpayment;
-    }
-
-    public void setMpayment(String mpayment) {
-        this.mpayment = mpayment;
-    }
-
-    public String getApr() {
-        return apr;
-    }
-
-    public void setApr(String apr) {
         this.apr = apr;
     }
 }
